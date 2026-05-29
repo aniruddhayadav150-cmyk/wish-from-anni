@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🎁 Small Gift</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+font-family:'Poppins',sans-serif;
+background:#000;
+color:white;
+}
+
+body{
+position:relative;
+}
+
+body::before{
+content:'';
+position:fixed;
+inset:0;
+background:linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.75));
+z-index:-1;
+}
+
+.screen{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:25px;
+text-align:center;
+transition:1s ease;
+}
+
+.hidden{
+opacity:0;
+pointer-events:none;
+transform:scale(1.05);
+}
+
+.title{
+font-family:'Dancing Script',cursive;
+font-size:4rem;
+margin-bottom:15px;
+}
+
+.subtitle{
+opacity:0.8;
+margin-bottom:30px;
+}
+
+button{
+padding:14px 32px;
+border:none;
+border-radius:999px;
+background:#ff4f87;
+color:white;
+font-size:1rem;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 20px rgba(255,79,135,0.4);
+}
+
+button:hover{
+transform:translateY(-3px) scale(1.03);
+}
+
+input{
+width:240px;
+padding:14px;
+border:none;
+border-radius:999px;
+text-align:center;
+font-size:1rem;
+outline:none;
+margin-bottom:20px;
+}
+
+#bgParticles{
+position:fixed;
+inset:0;
+overflow:hidden;
+z-index:-2;
+}
+
+.floatItem{
+position:absolute;
+font-size:1.6rem;
+animation:floatUp linear infinite;
+opacity:0.75;
+}
+
+@keyframes floatUp{
+
+0%{
+transform:translateY(110vh) rotate(0deg);
+opacity:0;
+}
+
+15%{
+opacity:0.7;
+}
+
+100%{
+transform:translateY(-120vh) rotate(360deg);
+opacity:0;
+}
+
+}
+
+#noBtn{
+position:absolute;
+left:180px;
+top:0;
+background:white;
+color:black;
+}
+
+#questionWrap{
+position:relative;
+width:340px;
+height:150px;
+margin-top:20px;
+}
+
+#teaseText{
+margin-top:25px;
+opacity:0.85;
+height:24px;
+}
+
+.flyParticle{
+position:absolute;
+pointer-events:none;
+font-size:2rem;
+animation:burst 3s cubic-bezier(.17,.89,.32,1.35) forwards;
+}
+
+@keyframes burst{
+
+0%{
+opacity:0;
+transform:translate(0,0) rotate(0deg) scale(0.2);
+}
+
+20%{
+opacity:1;
+}
+
+100%{
+opacity:0;
+transform:translate(var(--tx),var(--ty)) rotate(720deg) scale(1.4);
+}
+
+}
+
+#typingBox{
+max-width:850px;
+width:100%;
+max-height:65vh;
+overflow-y:auto;
+line-height:2;
+font-size:1rem;
+background:rgba(255,255,255,0.06);
+padding:25px;
+border-radius:25px;
+backdrop-filter:blur(6px);
+text-align:left;
+white-space:pre-wrap;
+}
+
+#letterNext{
+margin-top:25px;
+}
+
+#cakeArea{
+position:relative;
+width:320px;
+height:320px;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+}
+
+#cakeFull,
+#cakeSlice{
+position:absolute;
+font-size:10rem;
+transition:1s ease;
+}
+
+#cakeSlice{
+opacity:0;
+transform:translate(0,0) rotate(0deg);
+}
+
+.cakeText{
+margin-top:20px;
+opacity:0.85;
+}
+
+#flowerField{
+font-size:4rem;
+margin:30px 0;
+animation:flowerMove 2s ease-in-out infinite alternate;
+}
+
+@keyframes flowerMove{
+
+from{
+transform:translateY(0px);
+}
+
+to{
+transform:translateY(-12px);
+}
+
+}
+
+.galleryWrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.galleryWrap img{
+width:300px;
+height:450px;
+object-fit:cover;
+border-radius:25px;
+box-shadow:0 0 35px rgba(255,255,255,0.18);
+transition:0.6s ease;
+background:#111;
+}
+
+.galleryButtons{
+margin-top:20px;
+display:flex;
+gap:12px;
+}
+
+.fadeUp{
+animation:fadeUp 1s ease;
+}
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(25px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+#loading{
+position:fixed;
+inset:0;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+transition:1s;
+}
+
+.loaderHeart{
+font-size:4rem;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.15);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+@media(max-width:600px){
+
+.title{
+font-size:3rem;
+}
+
+#typingBox{
+font-size:0.92rem;
+line-height:1.8;
+}
+
+.galleryWrap img{
+width:260px;
+height:390px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+<div class="loaderHeart">❤️</div>
+<p style="margin-top:15px;opacity:0.8;">
+loading your surprise...
+</p>
+</div>
+
+<div id="bgParticles"></div>
+
+<audio id="music" loop preload="auto">
+<source src="./song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="screen" id="intro">
+
+<h1 class="title fadeUp">
+🎁 Small Gift
+</h1>
+
+<p class="subtitle fadeUp">
+just for you
+</p>
+
+<button onclick="switchScreen('intro','pinScreen')">
+Open
+</button>
+
+</div>
+
+<div class="screen hidden" id="pinScreen">
+
+<h2 class="fadeUp">
+Enter PIN
+</h2>
+
+<input type="password" id="pin" placeholder="1606">
+
+<button onclick="checkPin()">
+Continue
+</button>
+
+</div>
+
+<div class="screen hidden" id="questionScreen">
+
+<h1 class="fadeUp">
+Are you my future wife? ❤️
+</h1>
+
+<div id="questionWrap">
+
+<button onclick="yesClicked()">
+Yes
+</button>
+
+<button id="noBtn">
+No
+</button>
+
+</div>
+
+<p id="teaseText"></p>
+
+</div>
+
+<div class="screen hidden" id="letterScreen">
+
+<h1 class="title">💌</h1>
+
+<div id="typingBox"></div>
+
+<button id="letterNext"
+class="hidden"
+onclick="switchScreen('letterScreen','cakeScreen')">
+Next
+</button>
+
+</div>
+
+<div class="screen hidden" id="cakeScreen">
+
+<h1 class="title">
+happy birthday future wifee...
+</h1>
+
+<div id="cakeArea">
+
+<div id="cakeFull">🎂</div>
+
+<div id="cakeSlice">🍰</div>
+
+</div>
+
+<p class="cakeText">
+Tap to cut the cake
+</p>
+
+</div>
+
+<div class="screen hidden" id="flowerScreen">
+
+<h1 class="title">🌻</h1>
+
+<h2>
+here are some of ur fav. flowers
+</h2>
+
+<div id="flowerField">
+🌻 🌻 🌻 🌻 🌻
+</div>
+
+<button onclick="switchScreen('flowerScreen','memoryScreen')">
+Next
+</button>
+
+</div>
+
+<div class="screen hidden" id="memoryScreen">
+
+<h1 class="title">
+our beautiful memories....
+</h1>
+
+<div class="galleryWrap">
+
+<img id="galleryImage" src="./1.jpg">
+
+<div class="galleryButtons">
+
+<button onclick="prevImage()">
+Prev
+</button>
+
+<button onclick="nextImage()">
+Next
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const tease=[
+'Are you sure? ❤️',
+'Think again 😭',
+'Last chance 🌻',
+'No escaping now 👀'
+];
+
+let currentImage=1;
+let typingIndex=0;
+let cakeCut=false;
+
+const letter=`Happy Birthday vishu🥺🤍
+Today is genuinely a special day, and I just want your whole day to be filled with peace and happiness. You’re simple in the best way, but also someone who naturally feels very special without even trying. And honestly, even if you don’t always see it yourself, people who know you properly can feel that your presence alone makes things better.
+
+I just hope you keep growing, stay happy, and start being a little kinder to yourself too. You deserve peace, respect, care, and all those small moments in life that quietly feel meaningful 🤍
+
+Just smile a little today, let the day be yours… and yeah, enjoy it fully 🫂🎂🤍 I just genuinely hope this year gives you everything you’ve ever wished for in your own quiet way.. All the things you deserve.. success, peace, good people, and a life that feels lighter and happier every single day.. 🤍✨
+
+I really want to see you smiling more this year.. not just for moments, but in a way where life itself starts feeling better for you 😚🤭 Where things fall into place, where your efforts turn into results 🤌🏻❤️, and where you feel proud of yourself for how far you’ve come 🫂
+
+I know you’ve been hurt in the past and you’ve handled a lot of things on your own.. but I genuinely see a beautiful future with you 🤌🏻🫂❤️
+
+You deserve to be happy without overthinking, to feel calm in your own space, and to experience days where everything just feels right 😌🤍 I hope you get all the comfort, love, and positivity you’ve ever wanted in your life 🥺🤍✨
+
+And I’ll be here with you too.. quietly supporting you, cheering for you 🤭🤍, and just being around whenever you need 🫂🎂`;
+
+function switchScreen(hide,show){
+
+document.getElementById(hide)
+.classList.add('hidden');
+
+document.getElementById(show)
+.classList.remove('hidden');
+
+}
+
+function checkPin(){
+
+const pin=document.getElementById('pin').value;
+
+if(pin==='1606'){
+
+const music=document.getElementById('music');
+
+music.volume=1;
+
+music.play().catch(error=>{
+console.log(error);
+});
+
+switchScreen('pinScreen','questionScreen');
+
+}else{
+
+alert('Wrong PIN ❤️');
+
+}
+
+}
+
+const noBtn=document.getElementById('noBtn');
+
+function moveNo(){
+
+const x=Math.random()*180;
+const y=Math.random()*70;
+
+noBtn.style.left=x+'px';
+noBtn.style.top=y+'px';
+
+document.getElementById('teaseText').innerText=
+tease[Math.floor(Math.random()*tease.length)];
+
+}
+
+noBtn.addEventListener('mouseenter',moveNo);
+noBtn.addEventListener('touchstart',moveNo);
+
+function yesClicked(){
+
+spawnBurst(true);
+
+setTimeout(()=>{
+
+switchScreen('questionScreen','letterScreen');
+
+startTyping();
+
+},3000);
+
+}
+
+function spawnBurst(flowers=true){
+
+for(let i=0;i<65;i++){
+
+const p=document.createElement('div');
+
+p.className='flyParticle';
+
+if(flowers){
+
+p.innerHTML=Math.random()>0.5?'❤️':'🌻';
+
+}else{
+
+p.innerHTML='❤️';
+
+}
+
+const side=Math.random()>0.5
+?-100
+:window.innerWidth+100;
+
+const top=Math.random()*window.innerHeight;
+
+p.style.left=side+'px';
+p.style.top=top+'px';
+
+p.style.setProperty(
+'--tx',
+(Math.random()*1000-500)+'px'
+);
+
+p.style.setProperty(
+'--ty',
+(Math.random()*500-250)+'px'
+);
+
+p.style.fontSize=
+(Math.random()*24+18)+'px';
+
+document.body.appendChild(p);
+
+setTimeout(()=>{
+p.remove();
+},3000);
+
+}
+
+}
+
+function startTyping(){
+
+const box=document.getElementById('typingBox');
+
+const typing=setInterval(()=>{
+
+if(typingIndex<letter.length){
+
+box.innerHTML+=letter.charAt(typingIndex);
+
+typingIndex++;
+
+}else{
+
+clearInterval(typing);
+
+document.getElementById('letterNext')
+.classList.remove('hidden');
+
+}
+
+},32);
+
+}
+
+const cakeArea=document.getElementById('cakeArea');
+
+cakeArea.addEventListener('click',()=>{
+
+if(cakeCut) return;
+
+cakeCut=true;
+
+const full=document.getElementById('cakeFull');
+
+const slice=document.getElementById('cakeSlice');
+
+full.style.transform='translateX(-30px)';
+full.style.opacity='0.85';
+
+slice.style.opacity='1';
+
+slice.style.transform=
+'translate(120px,-60px) rotate(15deg)';
+
+spawnBurst(false);
+
+setTimeout(()=>{
+
+alert('Make a wish ❤️');
+
+switchScreen('cakeScreen','flowerScreen');
+
+},3500);
+
+});
+
+function nextImage(){
+
+currentImage++;
+
+if(currentImage>6){
+currentImage=1;
+}
+
+updateGallery();
+
+}
+
+function prevImage(){
+
+currentImage--;
+
+if(currentImage<1){
+currentImage=6;
+}
+
+updateGallery();
+
+}
+
+function updateGallery(){
+
+const img=document.getElementById('galleryImage');
+
+img.style.opacity='0';
+
+setTimeout(()=>{
+
+img.src='./'+currentImage+'.jpg';
+
+img.style.opacity='1';
+
+},250);
+
+}
+
+function createBackground(){
+
+for(let i=0;i<45;i++){
+
+const el=document.createElement('div');
+
+el.className='floatItem';
+
+el.innerHTML=
+Math.random()>0.5
+?'❤️'
+:'🌻';
+
+el.style.left=Math.random()*100+'vw';
+
+el.style.animationDuration=
+(Math.random()*12+10)+'s';
+
+el.style.fontSize=
+(Math.random()*22+16)+'px';
+
+el.style.animationDelay=
+(Math.random()*10)+'s';
+
+document.getElementById('bgParticles')
+.appendChild(el);
+
+}
+
+}
+
+function preloadAssets(){
+
+const images=[
+'1.jpg',
+'2.jpg',
+'3.jpg',
+'4.jpg',
+'5.jpg',
+'6.jpg'
+];
+
+let loaded=0;
+
+function finishLoading(){
+
+loaded++;
+
+if(loaded===images.length){
+
+setTimeout(()=>{
+
+document.getElementById('loading')
+.style.opacity='0';
+
+setTimeout(()=>{
+
+document.getElementById('loading')
+.style.display='none';
+
+},1000);
+
+},1200);
+
+}
+
+}
+
+images.forEach(src=>{
+
+const img=new Image();
+
+img.onload=finishLoading;
+
+img.onerror=finishLoading;
+
+img.src='./'+src;
+
+});
+
+}
+
+createBackground();
+
+preloadAssets();
+
+</script>
+
+</body>
+</html>
